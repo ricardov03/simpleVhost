@@ -2,21 +2,30 @@
 
 ##########################################################
 #
-# createVHost.sh
-# @desc This bash script auto-create a VHost for Apache.
+# sompleVhost.sh
+# @desc A simple way to administrate Apache Virtual Hosts.
 #
 # @autor Ricardo Vargas
-# @email ricardo.vargas@intec.edu.do
-# @date 2011-05-26
+# @email rvargas@seisigma.co
+# @date 2015-08-10
 #
 ##########################################################
 
 # Paths
-VHOST_DIR=/etc/apache2/sites-available/
-WWW_ROOT=/home/www
+if [ -d /etc/apache2 ]; then
+	VHOST_DIR=/etc/apache2/sites-available/
+else 
+	VHOST_DIR=/etc/httpd/conf.d/
+fi
+WWW_ROOT=/var/www/html
 
 # Vars
 ROOT_UID=0
+TASK=$1
+DOMAIN=$2
+MSN_SYSTEM='\033[00;32m[ system ]\033[39m '
+MSN_WARNING='\033[00;31m[ warning! ]\033[39m'
+MSN_NOTICE='\033[00;33m[ notice ]\033[39m '
 
 # Check - Root - User
 #if [ "$UID" -ne "$ROOT_UID" ]; then
@@ -24,13 +33,13 @@ if [ "$(id -u)" != "0" ]; then
     echo "Sorry, you most be root to run this script."
     exit 0 
 else
-	echo 'Root permitions passed...'; sleep 1
+	echo '$MSN_NOTICE Root permitions passed...'; sleep 1
 	echo -n '\n';
 
 	# Retrieve parameters VHost information
 	echo '-- Script Messages -- '
 
-	if [ -n "$1" ]; then
+	if [ -n "$1" ] && [ -n "$2" ]; then
 		DOMAIN=$1
 		echo '[system] Domain identified:' $DOMAIN; sleep 1
 		
@@ -74,8 +83,8 @@ else
 			fi
 		fi
 	else
-		echo "[error!] Please, provide a full domain name, i.e. 'example.com'"
-		echo -n '[warning!] Run this script like "./createVHost example.com" (Without quotes)\n\n'
+		echo "MSN_WARNING Please, provide a full domain name, i.e. 'example.com'"
+		echo -n 'MSN_WARNING Run this script like "./createVHost task example.com" (Without quotes)\n\n'
 		exit 0 
 	fi
 fi
