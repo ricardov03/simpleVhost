@@ -54,12 +54,14 @@ else
 				if [ -d $WWW_ROOT/$DOMAIN ]; then
 					printf "$MSN_WARNING Domain folder exist!$BREAK"; sleep 1
 					if [ -d $WWW_ROOT/$DOMAIN/logs ] && [ -d $WWW_ROOT/$DOMAIN/htdocs ] && [ -d $WWW_ROOT/$DOMAIN/backup ]; then
-						printf "$MSN_NOTICE Domain folder without content.$BREAK"; sleep 1
+						FS=0
+						printf "$MSN_NOTICE Domain folder have content.$BREAK"; sleep 1
+						printf "$MSN_NOTICE Skip folder creation.$BREAK"; sleep 1
+					else
+						printf "$MSN_NOTICE Domain folder don't have content.$BREAK"; sleep 1
 						printf "$MSN_WARNING Removing empty folder...$BREAK";
 						rm -r $WWW_ROOT/$DOMAIN
-					else
-						FS=0
-						printf "$MSN_NOTICE"; sleet
+					fi
 						
 					if  [ -e $VHOST_DIR/$DOMAIN.vhost ]; then
 						printf "$MSN_ERROR Virtual Host file already exist!$BREAK"; sleep 1
@@ -72,7 +74,6 @@ else
 					printf "$MSN_NOTICE Website folder doesn't exist.$BREAK"; sleep 1
 				fi
 
-				if [ -d $WWW_ROOT/$DOMAIN  ]; then; FS=1; fi
 				if [ $FS == 1 ]; then
 					printf "$MSN_NOTICE Creating folder tree.$BREAK"; sleep 1
 					mkdir -p $WWW_ROOT/$DOMAIN
