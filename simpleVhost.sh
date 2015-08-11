@@ -2,7 +2,7 @@
 
 ##########################################################
 #
-# sompleVhost.sh
+# simpleVhost.sh
 # @desc A simple way to administrate Apache Virtual Hosts.
 #
 # @autor Ricardo Vargas
@@ -89,7 +89,9 @@ else
 				exit 0;
 				;;
 			remove)
-				printf "Remove...";;
+				printf "Remove..."
+				exit 0
+				;;
 		esac
 exit 0;
 		DOMAIN=$1
