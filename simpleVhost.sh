@@ -20,6 +20,7 @@ fi
 WWW_ROOT=/var/www/html
 
 # Vars
+FS=1
 ROOT_UID=0
 TASK=$1
 DOMAIN=$2
@@ -35,8 +36,7 @@ printf "$BREAK$MSN_SYSTEM Script begin...$BREAK"; sleep 1
 
 # Check - Root - User
 if [ "$(id -u)" != "0" ]; then
-    printf "$MSN_WARNING Sorry, you most be root to run this script."; sleep 1
-    printf "$BREAK$BREAK";
+    printf "$MSN_WARNING Sorry, you most be root to run this script.$BREAK$BREAK"; sleep 1
     exit 0 
 else
 	printf "$MSN_NOTICE Root permitions passed..."; sleep 1
@@ -52,12 +52,41 @@ else
 		case "$TASK" in
 			create)
 				if [ -d $WWW_ROOT/$DOMAIN ]; then
-
+					printf "$MSN_WARNING Domain folder exist!$BREAK"; sleep 1
+					if [ -d $WWW_ROOT/$DOMAIN/logs ] && [ -d $WWW_ROOT/$DOMAIN/htdocs ] && [ -d $WWW_ROOT/$DOMAIN/backup ]; then
+						printf "$MSN_NOTICE Domain folder without content.$BREAK"; sleep 1
+						printf "$MSN_WARNING Removing empty folder...$BREAK";
+						rm -r $WWW_ROOT/$DOMAIN
+					else
+						FS=0
+						printf "$MSN_NOTICE"; sleet
+						
+					if  [ -e $VHOST_DIR/$DOMAIN.vhost ]; then
+						printf "$MSN_ERROR Virtual Host file already exist!$BREAK"; sleep 1
+						printf "$MSN_NOTICE No more actions...Finalizing script...$BREAK$BREAK"; sleep 2
+						exit 0;
+					else
+						printf "$MSN_NOTICE Virtual Host file doesn't exist.$BREAK"; sleep 1	
+					fi
 				else
-
+					printf "$MSN_NOTICE Website folder doesn't exist.$BREAK"; sleep 1
 				fi
 
-				printf "Create...";;
+				if [ -d $WWW_ROOT/$DOMAIN  ]; then; FS=1; fi
+				if [ $FS == 1 ]; then
+					printf "$MSN_NOTICE Creating folder tree.$BREAK"; sleep 1
+					mkdir -p $WWW_ROOT/$DOMAIN
+					mkdir -p $WWW_ROOT/$DOMAIN/logs
+					mkdir -p $WWW_ROOT/$DOMAIN/htdocs
+					mkdir -p $WWW_ROOT/$DOMAIN/backup
+					mkdir -p $WWW_ROOT/$DOMAIN/backup/db
+					mkdir -p $WWW_ROOT/$DOMAIN/backup/data
+					mkdir -p $WWW_ROOT/$DOMAIN/downloads
+					printf "$MSN_NOTICE Folder structure created.$BREAK"; sleep 1
+				fi
+
+				exit 0;
+				;;
 			remove)
 				printf "Remove...";;
 		esac
