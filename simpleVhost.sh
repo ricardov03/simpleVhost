@@ -23,23 +23,45 @@ WWW_ROOT=/var/www/html
 ROOT_UID=0
 TASK=$1
 DOMAIN=$2
-MSN_SYSTEM='\033[00;32m[ system ]\033[39m '
-MSN_WARNING='\033[00;31m[ warning! ]\033[39m'
-MSN_NOTICE='\033[00;33m[ notice ]\033[39m '
+BREAK='\n'
+MSN_SYSTEM='\033[00;36m[  system  ]\033[39m'
+MSN_WARNING='\033[00;33m[ warning! ]\033[39m'
+MSN_NOTICE='\033[00;32m[  notice  ]\033[39m'
+MSN_ERROR='\033[00;31m[  error!  ]\033[39m'
+
+# Script Begin
+printf "$BREAK$MSN_SYSTEM Script begin...$BREAK"; sleep 1
+#printf "$TASK - $DOMAIN - $VHOST_DIR" --ToDelete
 
 # Check - Root - User
-#if [ "$UID" -ne "$ROOT_UID" ]; then
 if [ "$(id -u)" != "0" ]; then
-    echo "Sorry, you most be root to run this script."
+    printf "$MSN_WARNING Sorry, you most be root to run this script."; sleep 1
+    printf "$BREAK$BREAK";
     exit 0 
 else
-	echo '$MSN_NOTICE Root permitions passed...'; sleep 1
-	echo -n '\n';
+	printf "$MSN_NOTICE Root permitions passed..."; sleep 1
+	printf "$BREAK$BREAK";
 
 	# Retrieve parameters VHost information
-	echo '-- Script Messages -- '
+	printf "   -- Script Messages --$BREAK$BREAK"
 
 	if [ -n "$1" ] && [ -n "$2" ]; then
+		printf "$MSN_NOTICE ToDo:	$TASK$BREAK"; sleep 1
+		printf "$MSN_NOTICE Domain:	$DOMAIN$BREAK"; sleep 1
+
+		case "$TASK" in
+			create)
+				if [ -d $WWW_ROOT/$DOMAIN ]; then
+
+				else
+
+				fi
+
+				printf "Create...";;
+			remove)
+				printf "Remove...";;
+		esac
+exit 0;
 		DOMAIN=$1
 		echo '[system] Domain identified:' $DOMAIN; sleep 1
 		
@@ -83,8 +105,8 @@ else
 			fi
 		fi
 	else
-		echo "MSN_WARNING Please, provide a full domain name, i.e. 'example.com'"
-		echo -n 'MSN_WARNING Run this script like "./createVHost task example.com" (Without quotes)\n\n'
+		printf "$MSN_ERROR Please, provide all require parameters.$BREAK"; sleep 1
+		printf "$MSN_NOTICE Run this script like \"sudo ./createVHost [task] [example.com]\" (Without quotes)$BREAK$BREAK"; sleep 1
 		exit 0 
 	fi
 fi
