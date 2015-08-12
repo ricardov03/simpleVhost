@@ -110,7 +110,7 @@ else
 						printf "$MSN_WARNING Applying configuration. Restarting Apache Server...$BREAK"; sleep 1
 						if [ $OS == 'debian' ]; then
 							/etc/init.d/apache2 reload
-						elif [ $OS == 'centos' ]
+						elif [ $OS == 'centos' ]; then
 							/etc/init.d/httpd reload
 						else
 							printf "$MSN_WARNING Uhmm... Where is Apache?"
