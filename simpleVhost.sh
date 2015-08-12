@@ -75,8 +75,8 @@ else
                                         mkdir -p $WWW_ROOT/$DOMAIN/downloads
                                         printf "$MSN_NOTICE Folder structure created.$BREAK"
 
-                                	if  [ -e $VHOST_DIR/vhost-$DOMAIN.vhost ]; then
-                                        	printf "$MSN_ERROR Virtual Host file already exist!$BREAK"; sleep 1
+                                	if [ -e $VHOST_DIR/vhost-$DOMAIN.conf ]; then
+                                        	printf "$MSN_WARNING Virtual Host file already exist!$BREAK"; sleep 1
                                         	printf "$MSN_SYSTEM Exiting...$BREAK$BREAK"; sleep 2
                                         	exit 0;
                                 	else
@@ -108,7 +108,14 @@ else
 							printf "$MSN_SYSTEM Site enabled.$BREAK"; sleep 1
 						fi	
 						printf "$MSN_WARNING Applying configuration. Restarting Apache Server...$BREAK"; sleep 1
-						/etc/init.d/apache2 reload
+						if [ $OS == 'debian' ]; then
+							/etc/init.d/apache2 reload
+						elif [ $OS == 'centos' ]
+							/etc/init.d/httpd reload
+						else
+							printf "$MSN_WARNING Uhmm... Where is Apache?"
+							printf "$MSN_SYSTEM Exiting..."
+						fi
 						printf "$MSN_NOTICE Apache Server restarted.$BREAK"
 						printf "$MSN_SYSTEM Script complete! Exiting...$BREAK$BREAK"; sleep 2
 						exit 0;
