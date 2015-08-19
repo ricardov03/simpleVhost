@@ -13,6 +13,10 @@
 
 # NOTE - All comments are printed like notifications.
 # TODO - Add custom Apache Dir location.
+# TODO - Read OS Name and Version.
+	# TODO - Use this information for: Service Restart (CentOS, Debian, ETC)
+# TODO - Configure folder structure permissions.
+# TODO - Add Database Creation support.
 
 # Vars
 OS='none'
